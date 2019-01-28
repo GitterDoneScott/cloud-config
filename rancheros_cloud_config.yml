@@ -1,0 +1,62 @@
+#cloud-config
+ssh_authorized_keys:
+  - ssh-rsa xyz
+rancher:
+#  state:
+#    dev: LABEL=RANCHER_STATE
+  network:
+#    dns:
+#      override: true
+#      nameservers:
+#        - 192.168.0.254
+#        - 8.8.8.8
+    interfaces:
+      eth*:
+        dhcp: true
+#  docker:
+#    registry_mirror: "http://registry:5000"
+#  system_docker:
+#    registry_mirror: "http://registry:5000"
+write_files:
+  - path: /etc/rc.local
+    permissions: "0755"
+    owner: root
+    content: |
+       #!/bin/bash
+       
+       #git function for use in this script
+       git() {
+         #-it removed. no tty for script or hook to stdin needed
+         docker run --user `id -u`:`id -g` --rm -v `pwd`:/git bwits/docker-git-alpine "$@" >> /tmp/rc_log.txt 2>&1
+       }
+       export -f git
+       
+       
+       #gimmie some htop
+       echo 'alias htop="docker run --rm -it --pid host frapsoft/htop"' >> /home/rancher/.profile
+       #stop all containers
+       echo 'alias docker_stopall="docker stop \`docker ps -aq\`"' >> /home/rancher/.profile
+       #browser via vnc
+       echo 'alias browser="docker run -d -p 5900:5900 siomiz/chrome"' >> /home/rancher/.profile
+       #alias git
+       #alias git="docker run --user \`id -u\`:\`id -g\` -ti --rm -v \`pwd\`:/git bwits/docker-git-alpine"
+       echo 'alias git="docker run --user \`id -u\`:\`id -g\` -ti --rm -v \`pwd\`:/git bwits/docker-git-alpine"' >> /home/rancher/.profile
+       
+       
+       chown rancher:rancher /home/rancher/.profile
+       #docker-compose to rancher profile path
+       echo 'export PATH="$PATH:/tmp"' >> /home/rancher/.profile
+       #add it to the current path
+       export PATH="$PATH:/tmp"
+       
+       cd /tmp
+       wget -O "/tmp/docker-compose" "https://github.com/docker/compose/releases/download/1.21.0/docker-compose-Linux-x86_64"
+       chmod +x /tmp/docker-compose
+       
+       wait-for-docker
+       sleep 5
+       
+       
+       
+#runcmd:
+#  - ['wget', '-O', '/etc/rc.local', 'https://']

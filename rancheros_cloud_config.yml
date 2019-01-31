@@ -27,7 +27,7 @@ write_files:
        #git function for use in this script
        git() {
          #-it removed. no tty for script or hook to stdin needed
-         docker run --user `id -u`:`id -g` --rm -v `pwd`:/git bwits/docker-git-alpine "$@" >> /tmp/rc_log.txt 2>&1
+         docker run --user `id -u`:`id -g` --rm -v `pwd`:/git bwits/docker-git-alpine -c user.email=spam@spam.com -c user.name=gitterdonescott "$@" >> /tmp/rc_log.txt 2>&1
        }
        export -f git
        

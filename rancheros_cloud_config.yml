@@ -33,14 +33,14 @@ write_files:
        
        
        #gimmie some htop
-       echo 'alias htop="docker run --rm -it --pid host frapsoft/htop"' >> /home/rancher/.profile
+       echo 'alias htop="docker run --name htop --rm -it --pid host frapsoft/htop"' >> /home/rancher/.profile
        #stop all containers
        echo 'alias docker_stopall="docker stop \`docker ps -aq\`"' >> /home/rancher/.profile
        #browser via vnc
-       echo 'alias browser="docker run -d -p 5900:5900 siomiz/chrome"' >> /home/rancher/.profile
+       echo 'alias browser="docker run --name browser -d -p 5900:5900 siomiz/chrome"' >> /home/rancher/.profile
        #alias git
        #alias git="docker run --user \`id -u\`:\`id -g\` -ti --rm -v \`pwd\`:/git bwits/docker-git-alpine"
-       echo 'alias git="docker run --user \`id -u\`:\`id -g\` -ti --rm -v \`pwd\`:/git bwits/docker-git-alpine"' >> /home/rancher/.profile
+       echo 'alias git="docker run --user \`id -u\`:\`id -g\` -ti --rm -v \`pwd\`:/git bwits/docker-git-alpine -c user.email=spam@spam.com -c user.name=gitterdonescott"' >> /home/rancher/.profile
        
        
        chown rancher:rancher /home/rancher/.profile

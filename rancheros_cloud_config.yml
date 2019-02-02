@@ -41,6 +41,10 @@ write_files:
        #alias git
        #alias git="docker run --user \`id -u\`:\`id -g\` -ti --rm -v \`pwd\`:/git bwits/docker-git-alpine"
        echo 'alias git="docker run --user \`id -u\`:\`id -g\` -ti --rm -v \`pwd\`:/git bwits/docker-git-alpine -c user.email=spam@spam.com -c user.name=gitterdonescott"' >> /home/rancher/.profile
+       #send files to Nextcloud
+       echo 'alias cloudsend="docker run --user \`id -u\`:\`id -g\` -ti --rm -v \`pwd\`:/cloudsend gitterdone/docker_cloudsend"' >> /home/rancher/.profile
+      
+       
        
        
        chown rancher:rancher /home/rancher/.profile

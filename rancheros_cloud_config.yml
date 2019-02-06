@@ -43,6 +43,10 @@ write_files:
        echo 'alias git="docker run --user \`id -u\`:\`id -g\` -ti --rm -v \`pwd\`:/git bwits/docker-git-alpine -c user.email=spam@spam.com -c user.name=gitterdonescott"' >> /home/rancher/.profile
        #send files to Nextcloud
        echo 'alias cloudsend="docker run --user \`id -u\`:\`id -g\` -ti --rm -v \`pwd\`:/cloudsend gitterdone/docker_cloudsend"' >> /home/rancher/.profile
+       #vim
+       echo 'alias vim="docker run --user \`id -u\`:\`id -g\` -ti --rm -v \`pwd\`:/home/developer/workspace jare/vim-bundle"' >> /home/rancher/.profile
+       #curl
+       echo 'alias curl="docker run --user \`id -u\`:\`id -g\` -ti --rm appropriate/curl"' >> /home/rancher/.profile
       
        
        
